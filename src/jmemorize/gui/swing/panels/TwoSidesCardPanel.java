@@ -79,29 +79,25 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver
     /**
      * Sets front- and backside and focuses text area for frontside.
      */
-    public void setTextSides(FormattedText frontside, FormattedText backside)
-    {
-        DocumentListener docListener = new DocumentListener()
-        {
-            public void changedUpdate(DocumentEvent e)
-            {
+    public void setTextSides(FormattedText frontside, FormattedText backside) {
+        DocumentListener docListener = new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }
 
-            public void insertUpdate(DocumentEvent e)
-            {
+            public void insertUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }
 
-            public void removeUpdate(DocumentEvent e)
-            {
+            public void removeUpdate(DocumentEvent e) {
                 notifyTextObservers();
             }
         };
-        
+
+        FormattedText ff = FormattedText.formatted("False");
         m_frontSide.setText(frontside).addDocumentListener(docListener);
-        m_backSide.setText(backside).addDocumentListener(docListener);
-        
+        m_backSide.setText(ff).addDocumentListener(docListener);
+
         m_frontSide.requestFocus();
     }
 

@@ -18,9 +18,7 @@
  */
 package jmemorize.gui.swing.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -33,25 +31,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.AbstractButton;
-import javax.swing.Action;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTextPane;
-import javax.swing.JToolBar;
-import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.MutableAttributeSet;
@@ -60,6 +46,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.StyledEditorKit.StyledTextAction;
 
+import jmemorize.core.FormattedText;
 import jmemorize.core.Settings;
 import jmemorize.gui.LC;
 import jmemorize.gui.Localization;
@@ -696,6 +683,94 @@ public class CardPanel extends JPanel
         return toolBar;
     }
 
+    private class ForegroundAction extends AbstractStyledTextAction
+    {
+        public ForegroundAction()
+        {
+            super("Backgroud-blue");
+        }
+
+
+        @Override
+        public boolean hasStyle(AttributeSet attr) {
+            return false;
+        }
+
+        public void setStyle(MutableAttributeSet attr, boolean enabled)
+
+        {
+            Color c = new Color(0,0,255);
+            StyleConstants.setForeground(attr, c);
+        }
+    }
+
+
+    private class BackgroundAction extends AbstractStyledTextAction
+    {
+        public BackgroundAction()
+        {
+            super("Backgroud-blue");
+        }
+
+
+        @Override
+        public boolean hasStyle(AttributeSet attr) {
+            return false;
+        }
+
+        public void setStyle(MutableAttributeSet attr, boolean enabled)
+
+        {
+            Color c = new Color(255,0,255);
+            StyleConstants.setBackground(attr, c);
+        }
+    }
+
+    private class SetBackGroundFalseAction1 extends AbstractAction {
+
+        public SetBackGroundFalseAction1() {
+            super("Set Backside False");
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            DocumentListener docListener = new DocumentListener() {
+                public void changedUpdate(DocumentEvent e) {
+                    notifyTextObservers();
+                }
+
+                public void insertUpdate(DocumentEvent e) {
+                    notifyTextObservers();
+                }
+
+                public void removeUpdate(DocumentEvent e) {
+                    notifyTextObservers();
+                }
+            };
+            FormattedText ff = FormattedText.formatted("True");
+            setTextSides101(ff);
+
+        }
+    }
+    private CardSidePanel m_backSide  = new CardSidePanel();
+    public void setTextSides101(FormattedText backside) {
+        DocumentListener docListener = new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                notifyTextObservers();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                notifyTextObservers();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                notifyTextObservers();
+            }
+        };
+
+        m_backSide.setText(backside).addDocumentListener(docListener);
+    }
     private JToolBar buildEditToolbar()
     {
         JToolBar toolBar = new JToolBar();
@@ -718,6 +793,10 @@ public class CardPanel extends JPanel
         toolBar.add(createButton(new RemoveImageAction(), "picture_delete.png"));
         toolBar.add(createButton(new amrAction(), "arrow_right.png")); //specified button
         toolBar.add(createButton(new aliAction(), "arrow_left.png")); //specified button
+
+        toolBar.add(createButton(new ForegroundAction(), "arrow_right.png"));
+        toolBar.add(createButton(new BackgroundAction(), "arrow_left.png"));
+        toolBar.add(createButton(new SetBackGroundFalseAction1(), "text_italic.png"));
 
         toolBar.setFloatable(false);
         return toolBar;
