@@ -46,6 +46,10 @@ import jmemorize.util.NaturalOrderComparator;
  *
  * @author djemili
  */
+
+/**
+ aidshai usdiua sdiuays dya sody aosidy auosyd uaysd uays do
+ */
 public class Category implements Events
 {
     // TODO use CopyOnWriteArrayList in Java1.5
