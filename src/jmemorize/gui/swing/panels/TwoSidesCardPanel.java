@@ -167,13 +167,13 @@ public class TwoSidesCardPanel extends CardPanel implements CardFontObserver
      */
     public void setFlipped(boolean enable)
     {
-        if (enable != m_flippedCardSides)
+        if (enable != mFlippedCardSides)
         {
             Font font = m_frontSide.getFont();
             m_frontSide.setFont(m_backSide.getFont());
             m_backSide.setFont(font);
 
-            m_flippedCardSides = enable;
+            mFlippedCardSides = enable;
         }
     }
     
